@@ -4,9 +4,10 @@ import java.util.Set;
 import com.turbine.windscada.service.socket.WebSocketService;
 import com.turbine.windscada.service.socket.impl.PerformanceTrendService;
 import io.vertx.core.http.ServerWebSocket;
+import static com.turbine.windscada.Path.*;
 
 public class WebSocketHandler {
-    private static Set<String> registedPaths = Util.getPath();
+    private static Set<String> registedPaths = getSocketPaths();
 
     public static void handler(ServerWebSocket socket) {
         String path = socket.path();
@@ -15,7 +16,7 @@ public class WebSocketHandler {
         }
         socket.accept();
         WebSocketService service = null;
-        if (path.equals("/performance-trend")) {
+        if (path.equals(PERFORMANCE_TREND.toString())) {
             service = new PerformanceTrendService();
         }
         if (service != null) {
