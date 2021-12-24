@@ -33,4 +33,25 @@ public class PerformanceTrendDAO extends Db {
         }
         return result;
     }
+
+    public static List<Map<String, Object>> historyPerformanceTrend(double day) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<Map<String, Object>> result = new ArrayList<>();
+        try {
+            con = getConnection();
+            ps = con.prepareStatement("select * from [Site_Log] where log_time > GETDATE() - ?");
+            ps.setDouble(1, day);
+            rs = ps.executeQuery();
+            if (rs != null) {
+                result = Util.convertResultSetToList(rs);
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.FINE, "", ex);
+        } finally {
+            close(rs, ps, con);
+        }
+        return result;
+    }
 }

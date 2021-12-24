@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.google.gson.Gson;
+import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.RoutingContext;
 
 public class Util {
     public static final Gson GSON = new Gson();
@@ -29,5 +31,28 @@ public class Util {
 
     public static String toJson(Object input) {
         return GSON.toJson(input);
+    }
+    
+    public static void sendResponse(RoutingContext rc, int statusCode, Object object) {
+        try {
+            String result = null;
+            JsonObject jContent = null;
+            if (object instanceof JsonObject) {
+                jContent = (JsonObject) object;
+                result = jContent.encode();
+            } else if (object instanceof List) {
+                result = GSON.toJson(object);
+            }
+            else {
+                jContent = new JsonObject(GSON.toJson(object));
+                result = jContent.encode();
+            }
+
+            rc.response().setStatusCode(statusCode)
+                    .putHeader("Content-Type",  "application/json")
+                    .end(result);
+        } catch (Exception ex) {
+            rc.fail(ex);
+        }
     }
 }

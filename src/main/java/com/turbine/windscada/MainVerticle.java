@@ -9,13 +9,15 @@ import static com.turbine.windscada.Path.*;
 
 public class MainVerticle extends AbstractVerticle {
   private static Logger logger = Logger.getLogger(MainVerticle.class.getName());
+  public static final String JSON = "application/json";
+  private static final String PREFIX = "/windscada/api/v1";
 
   @Override
   public void start() throws Exception {
     // Create a Router
     Router router = Router.router(vertx);
     router.route().handler(BodyHandler.create());
-    router.get(PERFORMANCE_TREND.toString()).handler(PerformanceTrendHandler::getHistories);
+    router.get(PREFIX + PERFORMANCE_TREND.toString()).produces(JSON).handler(PerformanceTrendHandler::getHistory);
 
     // Create the HTTP server
     vertx.createHttpServer()

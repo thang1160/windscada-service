@@ -1,5 +1,7 @@
 package com.turbine.windscada.service.socket.impl;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -12,6 +14,7 @@ import io.vertx.core.http.ServerWebSocket;
 
 public class PerformanceTrendService implements WebSocketService {
     private static final Logger LOGGER = Logger.getLogger(PerformanceTrendService.class.getName());
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
     @Override
     public void start(ServerWebSocket socket) {
@@ -25,6 +28,10 @@ public class PerformanceTrendService implements WebSocketService {
                             break;
                         }
                         List<Map<String, Object>> result = PerformanceTrendDAO.lastestPerformanceTrend();
+                        for (Map<String,Object> map : result) {
+                            Timestamp logTime = (Timestamp) map.get("log_time");
+                            map.put("log_time", sdf.format(logTime));
+                        }
                         Buffer buffer = Buffer.buffer().appendString(Util.toJson(result));
                         socket.write(buffer);
                         Thread.sleep(5000);
