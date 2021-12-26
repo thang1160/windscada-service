@@ -23,6 +23,7 @@ public class PerformanceTrendService implements WebSocketService {
             public void run() {
                 while (true) {
                     try {
+                        Thread.sleep(5000);
                         if (socket.isClosed()) {
                             LOGGER.info("Socket closed by client");
                             break;
@@ -34,7 +35,6 @@ public class PerformanceTrendService implements WebSocketService {
                         }
                         Buffer buffer = Buffer.buffer().appendString(Util.toJson(result));
                         socket.write(buffer);
-                        Thread.sleep(5000);
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                         LOGGER.log(Level.WARNING, "Thread is interrupted", e);
