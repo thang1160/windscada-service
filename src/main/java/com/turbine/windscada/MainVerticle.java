@@ -1,6 +1,7 @@
 package com.turbine.windscada;
 
 import java.util.logging.Logger;
+import com.turbine.windscada.service.http.AlarmHandler;
 import com.turbine.windscada.service.http.PerformanceTrendHandler;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.ext.web.Router;
@@ -18,6 +19,8 @@ public class MainVerticle extends AbstractVerticle {
     Router router = Router.router(vertx);
     router.route().handler(BodyHandler.create());
     router.get(PREFIX + PERFORMANCE_TREND.toString()).produces(JSON).handler(PerformanceTrendHandler::getHistory);
+
+    router.get(PREFIX + ALARMS.toString()).produces(JSON).handler(AlarmHandler::getHistory);
 
     // Create the HTTP server
     vertx.createHttpServer()

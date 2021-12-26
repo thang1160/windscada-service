@@ -16,7 +16,7 @@ public class Db {
 
             HikariConfig hikariConfig114 = new HikariConfig();
             hikariConfig114.setDataSourceClassName("com.microsoft.sqlserver.jdbc.SQLServerDataSource");
-            hikariConfig114.setJdbcUrl("jdbc:sqlserver://localhost:1433");
+            hikariConfig114.setJdbcUrl("jdbc:sqlserver://127.0.0.1:1433");
             hikariConfig114.addDataSourceProperty("user", "SA");
             hikariConfig114.addDataSourceProperty("password", "sS123456");
             hikariConfig114.addDataSourceProperty("databaseName", "WINDSCADA");

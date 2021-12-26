@@ -5,6 +5,7 @@ import java.util.Set;
 
 public enum Path {
     PERFORMANCE_TREND("/performance-trend"),
+    ALARMS("/alarms"),
     NGUYEN("/nguyen")
     ;
 
