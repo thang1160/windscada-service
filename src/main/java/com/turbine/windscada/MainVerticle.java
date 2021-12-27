@@ -22,6 +22,8 @@ public class MainVerticle extends AbstractVerticle {
 
     router.get(PREFIX + ALARMS.toString()).produces(JSON).handler(AlarmHandler::getHistory);
 
+    router.put(PREFIX + ALARMS_OFF.toString()).produces(JSON).handler(AlarmHandler::setAlarmOff);
+
     // Create the HTTP server
     vertx.createHttpServer()
         .requestHandler(router)

@@ -35,4 +35,21 @@ public class AlarmDAO extends Db {
         }
         return result;
     }
+
+    public static void setAlarmsOff(String ids, int accountId) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            con = getConnection();
+            ps = con.prepareStatement("exec set_alarm_off ?, ? ;");
+            ps.setString(1, ids == null ? "" : ids);
+            ps.setInt(2, accountId);
+            ps.execute();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.FINE, "", ex);
+        } finally {
+            close(rs, ps, con);
+        }
+    }
 }
