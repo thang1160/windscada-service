@@ -1,13 +1,18 @@
 package com.turbine.windscada;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
-import com.turbine.windscada.service.socket.WebSocketService;
-import com.turbine.windscada.service.socket.impl.PerformanceTrendService;
 import io.vertx.core.http.ServerWebSocket;
 import static com.turbine.windscada.Path.*;
 
 public class WebSocketHandler {
     private static Set<String> registedPaths = getSocketPaths();
+    private static List<ServerWebSocket> performanceTrendSockets= new ArrayList<>();
+
+    public static List<ServerWebSocket> getPerformanceTrendSockets() {
+        return WebSocketHandler.performanceTrendSockets;
+    }
 
     public static void handler(ServerWebSocket socket) {
         String path = socket.path();
@@ -15,12 +20,8 @@ public class WebSocketHandler {
             socket.reject();
         }
         socket.accept();
-        WebSocketService service = null;
         if (path.equals(PERFORMANCE_TREND.toString())) {
-            service = new PerformanceTrendService();
-        }
-        if (service != null) {
-            service.start(socket);
+            performanceTrendSockets.add(socket);
         }
     }
 }
