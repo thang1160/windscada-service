@@ -3,6 +3,7 @@ package com.turbine.windscada;
 import java.util.logging.Logger;
 import com.turbine.windscada.service.http.AlarmHandler;
 import com.turbine.windscada.service.http.PerformanceTrendHandler;
+import com.turbine.windscada.service.socket.AlarmsThread;
 import com.turbine.windscada.service.socket.PerformanceTrendThread;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.ext.web.Router;
@@ -33,6 +34,7 @@ public class MainVerticle extends AbstractVerticle {
         .onSuccess(server -> {
           logger.info("HTTP server started on port " + server.actualPort());
           new PerformanceTrendThread().start();
+          new AlarmsThread().start();
         });
   }
 }
