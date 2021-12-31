@@ -24,6 +24,7 @@ public enum Path {
     public static Set<String> getSocketPaths() {
         Set<String> result = new HashSet<>();
         result.add(PERFORMANCE_TREND.toString());
+        result.add(ALARMS.toString());
         return result;
     }
 }

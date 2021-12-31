@@ -15,15 +15,36 @@ public class AlarmDAO extends Db {
 
     private static final Logger LOGGER = Logger.getLogger(AlarmDAO.class.getName());
 
-    public static List<Map<String, Object>> lastestAlarm(String name) {
+    public static List<Map<String, Object>> lastestAlarm() {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         List<Map<String, Object>> result = new ArrayList<>();
         try {
             con = getConnection();
-            ps = con.prepareStatement("exec get_alarm_list ? ;");
-            ps.setString(1, name == null ? "" : name);
+            ps = con.prepareStatement("exec get_alarm_list_new;");
+            rs = ps.executeQuery();
+            if (rs != null) {
+                result = Util.convertResultSetToList(rs);
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.FINE, "", ex);
+        } finally {
+            close(rs, ps, con);
+        }
+        return result;
+    }
+
+    public static List<Map<String, Object>> historyAlarm(String name, double day) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<Map<String, Object>> result = new ArrayList<>();
+        try {
+            con = getConnection();
+            ps = con.prepareStatement("exec get_alarm_list ?, ? ;");
+            ps.setString(1, name == null ? "" : name);            
+            ps.setDouble(2, day);
             rs = ps.executeQuery();
             if (rs != null) {
                 result = Util.convertResultSetToList(rs);
