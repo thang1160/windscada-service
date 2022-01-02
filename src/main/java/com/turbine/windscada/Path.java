@@ -7,6 +7,7 @@ public enum Path {
     PERFORMANCE_TREND("/performance-trend"),
     ALARMS("/alarms"),
     ALARMS_OFF("/alarms-off"),
+    TURBINE_STATUS("/turbine-status"),
     NGUYEN("/nguyen")
     ;
 
@@ -25,6 +26,7 @@ public enum Path {
         Set<String> result = new HashSet<>();
         result.add(PERFORMANCE_TREND.toString());
         result.add(ALARMS.toString());
+        result.add(TURBINE_STATUS.toString());
         return result;
     }
 }
