@@ -10,6 +10,7 @@ public class WebSocketHandler {
     private static Set<String> registedPaths = getSocketPaths();
     private static List<ServerWebSocket> performanceTrendSockets = new ArrayList<>();
     private static List<ServerWebSocket> alarmsSockets = new ArrayList<>();
+    private static List<ServerWebSocket> alarmsWarningSockets = new ArrayList<>();
     private static List<ServerWebSocket> turbineStatusSockets = new ArrayList<>();
 
     public static List<ServerWebSocket> getPerformanceTrendSockets() {
@@ -18,6 +19,10 @@ public class WebSocketHandler {
 
     public static List<ServerWebSocket> getAlarmsSockets() {
         return WebSocketHandler.alarmsSockets;
+    }
+
+    public static List<ServerWebSocket> getAlarmsWarningSocket() {
+        return WebSocketHandler.alarmsWarningSockets;
     }
 
     public static List<ServerWebSocket> getTurbineStatusSockets() {
@@ -35,6 +40,9 @@ public class WebSocketHandler {
         }
         if (path.equals(ALARMS.toString())) {
             alarmsSockets.add(socket);
+        }
+        if (path.equals(ALARMS_WARNING.toString())) {
+            alarmsWarningSockets.add(socket);
         }
         if (path.equals(TURBINE_STATUS.toString())) {
             turbineStatusSockets.add(socket);

@@ -6,6 +6,7 @@ import java.util.Set;
 public enum Path {
     PERFORMANCE_TREND("/performance-trend"),
     ALARMS("/alarms"),
+    ALARMS_WARNING("/alarms-warning"),
     ALARMS_OFF("/alarms-off"),
     TURBINE_STATUS("/turbine-status"),
     NGUYEN("/nguyen")
@@ -27,6 +28,7 @@ public enum Path {
         result.add(PERFORMANCE_TREND.toString());
         result.add(ALARMS.toString());
         result.add(TURBINE_STATUS.toString());
+        result.add(ALARMS_WARNING.toString());
         return result;
     }
 }
