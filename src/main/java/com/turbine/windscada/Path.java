@@ -8,7 +8,7 @@ public enum Path {
     ALARMS("/alarms"),
     ALARMS_OFF("/alarms-off"),
     TURBINE_STATUS("/turbine-status"),
-    NGUYEN("/nguyen")
+    BAR_GRAPH("/bar-graph");
     ;
 
     private final String stringPath;
@@ -27,6 +27,7 @@ public enum Path {
         result.add(PERFORMANCE_TREND.toString());
         result.add(ALARMS.toString());
         result.add(TURBINE_STATUS.toString());
+        result.add(BAR_GRAPH.toString());
         return result;
     }
 }
