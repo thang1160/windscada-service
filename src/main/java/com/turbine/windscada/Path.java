@@ -8,7 +8,10 @@ public enum Path {
     ALARMS("/alarms"),
     ALARMS_OFF("/alarms-off"),
     TURBINE_STATUS("/turbine-status"),
-    BAR_GRAPH("/bar-graph");
+    BAR_GRAPH("/bar-graph"),
+    LOGIN("/login"),
+    LOGOUT("/logout"),
+    PROFILE("/profile"),
     ;
 
     private final String stringPath;

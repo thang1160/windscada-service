@@ -32,7 +32,7 @@ public class Util {
     public static String toJson(Object input) {
         return GSON.toJson(input);
     }
-    
+
     public static void sendResponse(RoutingContext rc, int statusCode, Object object) {
         try {
             String result = null;
@@ -42,17 +42,34 @@ public class Util {
                 result = jContent.encode();
             } else if (object instanceof List) {
                 result = GSON.toJson(object);
-            }
-            else {
+            } else {
                 jContent = new JsonObject(GSON.toJson(object));
                 result = jContent.encode();
             }
 
             rc.response().setStatusCode(statusCode)
-                    .putHeader("Content-Type",  "application/json")
+                    .putHeader("Content-Type", "application/json")
                     .end(result);
         } catch (Exception ex) {
             rc.fail(ex);
         }
+    }
+
+    public static void failureResponse(RoutingContext rc) {
+        Throwable throwable = rc.failure();
+
+        int statusCode = rc.statusCode();
+        String message = throwable.getMessage();
+
+        Map<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("code", statusCode);
+        errorResponse.put("message", message);
+        String json = GSON.toJson(errorResponse);
+
+        rc.response().setStatusCode(statusCode).end(new JsonObject(json).encode());
+    }
+
+    public static String hashPassword(String password, String salt) {
+        return org.apache.commons.codec.digest.DigestUtils.sha256Hex(password + salt);
     }
 }

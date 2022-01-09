@@ -31,21 +31,25 @@ public class WebSocketHandler {
 
     public static void handler(ServerWebSocket socket) {
         String path = socket.path();
-        if (!registedPaths.contains(path)) {
-            socket.reject();
-        }
-        socket.accept();
-        if (path.equals(PERFORMANCE_TREND.toString())) {
-            performanceTrendSockets.add(socket);
-        }
-        if (path.equals(ALARMS.toString())) {
-            alarmsSockets.add(socket);
-        }
-        if (path.equals(TURBINE_STATUS.toString())) {
-            turbineStatusSockets.add(socket);
-        }
-        if (path.equals(BAR_GRAPH.toString())) {
-            barGraphSockets.add(socket);
+        try {
+            if (!registedPaths.contains(path)) {
+                socket.reject();
+            }
+            socket.accept();
+            if (path.equals(PERFORMANCE_TREND.toString())) {
+                performanceTrendSockets.add(socket);
+            }
+            if (path.equals(ALARMS.toString())) {
+                alarmsSockets.add(socket);
+            }
+            if (path.equals(TURBINE_STATUS.toString())) {
+                turbineStatusSockets.add(socket);
+            }
+            if (path.equals(BAR_GRAPH.toString())) {
+                barGraphSockets.add(socket);
+            }
+        } catch (IllegalStateException e) {
+            // socket is already closed
         }
     }
 }

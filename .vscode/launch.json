@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch AccountDAO",
+            "request": "launch",
+            "mainClass": "com.turbine.windscada.dao.AccountDAO",
+            "projectName": "windscada-service"
+        },
+        {
+            "type": "java",
             "name": "Launch Main",
             "request": "launch",
             "mainClass": "com.turbine.windscada.Main",
@@ -16,6 +23,6 @@
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"
-        },
+        }
     ]
 }
