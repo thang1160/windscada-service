@@ -3,17 +3,17 @@ package com.turbine.windscada.dto;
 import java.util.List;
 
 public class Profile {
-    private String name;
+    private String username;
     private String email;
     private int id;
     private List<String> functions;
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {

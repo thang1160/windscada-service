@@ -11,13 +11,14 @@ import io.vertx.ext.auth.jwt.JWTAuth;
 import io.vertx.ext.web.RoutingContext;
 
 public class AuthenticationHandler {
+    private static final String USERNAME = "username";
     private static final Logger _LOGGER = Logger.getLogger(AuthenticationHandler.class.getName());
 
     public static void login(RoutingContext rc, JWTAuth jwt) {
         rc.vertx().executeBlocking(blockingCodeHandler -> {
             try {
                 JsonObject json = rc.getBodyAsJson();
-                String username = json.getString("username");
+                String username = json.getString(USERNAME);
                 String password = json.getString("password");
                 if (username == null || password == null) {
                     rc.response().setStatusCode(400).end();
@@ -29,7 +30,7 @@ public class AuthenticationHandler {
                     return;
                 }
                 rc.response().end(jwt.generateToken(
-                        new JsonObject().put("sub", accountId),
+                        new JsonObject().put("sub", accountId).put(USERNAME, username),
                         new JWTOptions().setAlgorithm("RS256").setExpiresInMinutes(120)));
             } catch (Exception ex) {
                 blockingCodeHandler.fail(ex);
@@ -41,9 +42,11 @@ public class AuthenticationHandler {
         rc.vertx().executeBlocking(future -> {
             try {
                 int accountId = Integer.parseInt(rc.user().principal().getString("sub"));
+                String username = rc.user().principal().getString(USERNAME);
                 List<String> functions = AccountDAO.getListFunction(accountId);
                 Profile profile = new Profile();
                 profile.setId(accountId);
+                profile.setUsername(username);
                 profile.setFunctions(functions);
                 Util.sendResponse(rc, 200, profile);
             } catch (Exception e) {
