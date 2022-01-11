@@ -32,8 +32,9 @@ public class AlarmHandler {
         rc.vertx().executeBlocking(future -> {
             try {
                 String tagName = rc.request().getParam("name");
+                int turbineId = Integer.parseInt(rc.request().getParam("turbine_id") != null ? rc.request().getParam("turbine_id") : "0");
                 logger.info("tagName: " + tagName);
-                List<Map<String, Object>> result = AlarmDAO.historyAlarm(tagName, NumberUtils.toDouble("5", 5));
+                List<Map<String, Object>> result = AlarmDAO.historyAlarm(tagName, NumberUtils.toDouble("5", 5), turbineId);
                 logger.info("result" + result.size());
                 Util.sendResponse(rc, 200, result);
             } catch (Exception e) {
@@ -52,6 +53,18 @@ public class AlarmHandler {
                 logger.info("ids: " + ids);
                 AlarmDAO.setAlarmsOff(ids, accountId);
                 JsonObject result = new JsonObject().put("result", "Success");
+                Util.sendResponse(rc, 200, result);
+            } catch (Exception e) {
+                logger.log(Level.SEVERE, "", e);
+                rc.fail(e);
+            }
+        }, false, null);
+    }
+
+    public static void getAlarmsWarning(RoutingContext rc) {
+        rc.vertx().executeBlocking(future -> {
+            try {
+                List<Map<String, Object>> result = AlarmDAO.alarmsWarning(NumberUtils.toDouble("5", 5));
                 Util.sendResponse(rc, 200, result);
             } catch (Exception e) {
                 logger.log(Level.SEVERE, "", e);

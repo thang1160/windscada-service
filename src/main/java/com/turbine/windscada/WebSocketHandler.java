@@ -10,8 +10,10 @@ public class WebSocketHandler {
     private static Set<String> registedPaths = getSocketPaths();
     private static List<ServerWebSocket> performanceTrendSockets = new ArrayList<>();
     private static List<ServerWebSocket> alarmsSockets = new ArrayList<>();
+    private static List<ServerWebSocket> alarmsWarningSockets = new ArrayList<>();
     private static List<ServerWebSocket> turbineStatusSockets = new ArrayList<>();
     private static List<ServerWebSocket> barGraphSockets = new ArrayList<>();
+    private static List<ServerWebSocket> overviewSockets = new ArrayList<>();
 
     public static List<ServerWebSocket> getPerformanceTrendSockets() {
         return WebSocketHandler.performanceTrendSockets;
@@ -21,12 +23,19 @@ public class WebSocketHandler {
         return WebSocketHandler.alarmsSockets;
     }
 
+    public static List<ServerWebSocket> getAlarmsWarningSocket() {
+        return WebSocketHandler.alarmsWarningSockets;
+    }
+
     public static List<ServerWebSocket> getTurbineStatusSockets() {
         return WebSocketHandler.turbineStatusSockets;
     }
 
     public static List<ServerWebSocket> getBarGraphSockets() {
         return WebSocketHandler.barGraphSockets;
+    }
+    public static List<ServerWebSocket> getOverviewSockets() {
+        return WebSocketHandler.overviewSockets;
     }
 
     public static void handler(ServerWebSocket socket) {
@@ -47,6 +56,9 @@ public class WebSocketHandler {
             }
             if (path.equals(BAR_GRAPH.toString())) {
                 barGraphSockets.add(socket);
+            }
+            if (path.equals(OVERVIEW.toString())) {
+                overviewSockets.add(socket);
             }
         } catch (IllegalStateException e) {
             // socket is already closed

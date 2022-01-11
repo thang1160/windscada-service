@@ -35,16 +35,38 @@ public class AlarmDAO extends Db {
         return result;
     }
 
-    public static List<Map<String, Object>> historyAlarm(String name, double day) {
+    public static List<Map<String, Object>> historyAlarm(String name, double day, int turbineId) {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         List<Map<String, Object>> result = new ArrayList<>();
         try {
             con = getConnection();
-            ps = con.prepareStatement("exec get_alarm_list ?, ? ;");
+            ps = con.prepareStatement("exec get_alarm_list ?, ?, ?;");
             ps.setString(1, name == null ? "" : name);            
             ps.setDouble(2, day);
+            ps.setInt(3, turbineId);
+            rs = ps.executeQuery();
+            if (rs != null) {
+                result = Util.convertResultSetToList(rs);
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.FINE, "", ex);
+        } finally {
+            close(rs, ps, con);
+        }
+        return result;
+    }
+
+    public static List<Map<String, Object>> alarmsWarning(double day) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<Map<String, Object>> result = new ArrayList<>();
+        try {
+            con = getConnection();
+            ps = con.prepareStatement("exec get_alarms_warning ? ;");
+            ps.setDouble(1, day);
             rs = ps.executeQuery();
             if (rs != null) {
                 result = Util.convertResultSetToList(rs);

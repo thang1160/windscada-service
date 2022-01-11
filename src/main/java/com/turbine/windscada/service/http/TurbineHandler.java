@@ -24,5 +24,18 @@ public class TurbineHandler {
         }, false, null);
     }
 
+    public static void getOverview(RoutingContext rc) {
+        rc.vertx().executeBlocking(future -> {
+            try {
+                List<Map<String, Object>> result = TurbineDAO.getOverview();
+                logger.info("result" + result.size());
+                Util.sendResponse(rc, 200, result);
+            } catch (Exception e) {
+                logger.log(Level.SEVERE, "", e);
+                rc.fail(e);
+            }
+        }, false, null);
+    }
+
 
 }
