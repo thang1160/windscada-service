@@ -12,6 +12,8 @@ public class WebSocketHandler {
     private static List<ServerWebSocket> alarmsSockets = new ArrayList<>();
     private static List<ServerWebSocket> alarmsWarningSockets = new ArrayList<>();
     private static List<ServerWebSocket> turbineStatusSockets = new ArrayList<>();
+    private static List<ServerWebSocket> barGraphSockets = new ArrayList<>();
+    private static List<ServerWebSocket> overviewSockets = new ArrayList<>();
 
     public static List<ServerWebSocket> getPerformanceTrendSockets() {
         return WebSocketHandler.performanceTrendSockets;
@@ -27,6 +29,10 @@ public class WebSocketHandler {
 
     public static List<ServerWebSocket> getTurbineStatusSockets() {
         return WebSocketHandler.turbineStatusSockets;
+    }
+
+    public static List<ServerWebSocket> getOverviewSockets() {
+        return WebSocketHandler.overviewSockets;
     }
 
     public static void handler(ServerWebSocket socket) {
@@ -46,6 +52,12 @@ public class WebSocketHandler {
         }
         if (path.equals(TURBINE_STATUS.toString())) {
             turbineStatusSockets.add(socket);
+        }
+        if (path.equals(BAR_GRAPH.toString())) {
+            barGraphSockets.add(socket);
+        }
+        if (path.equals(OVERVIEW.toString())) {
+            overviewSockets.add(socket);
         }
     }
 }

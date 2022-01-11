@@ -3,8 +3,11 @@ package com.turbine.windscada;
 import java.util.logging.Logger;
 import com.turbine.windscada.service.http.AlarmHandler;
 import com.turbine.windscada.service.http.PerformanceTrendHandler;
+import com.turbine.windscada.service.http.TurbineHandler;
 import com.turbine.windscada.service.socket.AlarmsThread;
 import com.turbine.windscada.service.socket.AlarmsWarningThread;
+import com.turbine.windscada.service.socket.BarGraphThread;
+import com.turbine.windscada.service.socket.OverviewThread;
 import com.turbine.windscada.service.socket.PerformanceTrendThread;
 import com.turbine.windscada.service.socket.TurbineStatusThread;
 import io.vertx.core.AbstractVerticle;
@@ -28,6 +31,8 @@ public class MainVerticle extends AbstractVerticle {
 
     router.put(PREFIX + ALARMS_OFF.toString()).produces(JSON).handler(AlarmHandler::setAlarmOff);
 
+    router.get(PREFIX + OVERVIEW.toString()).produces(JSON).handler(TurbineHandler::getOverview);
+
     // Create the HTTP server
     vertx.createHttpServer()
         .requestHandler(router)
@@ -39,6 +44,8 @@ public class MainVerticle extends AbstractVerticle {
           new AlarmsThread().start();
           new TurbineStatusThread().start();
           new AlarmsWarningThread().start();
+          new BarGraphThread().start();
+          new OverviewThread().start();
         });
   }
 }

@@ -9,7 +9,8 @@ public enum Path {
     ALARMS_WARNING("/alarms-warning"),
     ALARMS_OFF("/alarms-off"),
     TURBINE_STATUS("/turbine-status"),
-    NGUYEN("/nguyen")
+    BAR_GRAPH("/bar-graph"),
+    OVERVIEW("/overview");
     ;
 
     private final String stringPath;
@@ -29,6 +30,8 @@ public enum Path {
         result.add(ALARMS.toString());
         result.add(TURBINE_STATUS.toString());
         result.add(ALARMS_WARNING.toString());
+        result.add(BAR_GRAPH.toString());
+        result.add(OVERVIEW.toString());
         return result;
     }
 }
