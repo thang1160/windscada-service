@@ -21,7 +21,7 @@ public class OverviewThread extends Thread {
             try {
                 Thread.sleep(5000);
                 List<ServerWebSocket> closedList = new ArrayList<>();
-                List<ServerWebSocket> currentList = WebSocketHandler.getTurbineStatusSockets();
+                List<ServerWebSocket> currentList = WebSocketHandler.getOverviewSockets();
                 List<Map<String, Object>> result = TurbineDAO.getOverview();
                 for (ServerWebSocket socket : currentList) {
                     if (socket.isClosed()) {
