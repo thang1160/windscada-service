@@ -1,5 +1,6 @@
 package com.turbine.windscada.dao;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,32 +29,34 @@ public class AlarmDAO extends Db {
                 result = Util.convertResultSetToList(rs);
             }
         } catch (SQLException ex) {
-            LOGGER.log(Level.FINE, "", ex);
+            LOGGER.log(Level.SEVERE, "", ex);
         } finally {
             close(rs, ps, con);
         }
         return result;
     }
 
-    public static List<Map<String, Object>> historyAlarm(String name, double day, int turbineId) {
+    public static List<Map<String, Object>> historyAlarm(String name, int turbineId, int page, int pageSize) {
         Connection con = null;
-        PreparedStatement ps = null;
+        PreparedStatement cs = null;
         ResultSet rs = null;
         List<Map<String, Object>> result = new ArrayList<>();
         try {
             con = getConnection();
-            ps = con.prepareStatement("exec get_alarm_list ?, ?, ?;");
-            ps.setString(1, name == null ? "" : name);            
-            ps.setDouble(2, day);
-            ps.setInt(3, turbineId);
-            rs = ps.executeQuery();
+            cs = con.prepareCall("exec get_alarm_list ?, ?, ?, ?, ?;");
+            cs.setString(1, name == null ? "" : name);            
+            cs.setInt(2, turbineId);
+            cs.setInt(3, page);
+            cs.setInt(4, pageSize);
+            cs.setInt(5, 0);
+            rs = cs.executeQuery();
             if (rs != null) {
                 result = Util.convertResultSetToList(rs);
             }
         } catch (SQLException ex) {
-            LOGGER.log(Level.FINE, "", ex);
+            LOGGER.log(Level.SEVERE, "", ex);
         } finally {
-            close(rs, ps, con);
+            close(rs, cs, con);
         }
         return result;
     }
@@ -72,7 +75,7 @@ public class AlarmDAO extends Db {
                 result = Util.convertResultSetToList(rs);
             }
         } catch (SQLException ex) {
-            LOGGER.log(Level.FINE, "", ex);
+            LOGGER.log(Level.SEVERE, "", ex);
         } finally {
             close(rs, ps, con);
         }
@@ -90,7 +93,7 @@ public class AlarmDAO extends Db {
             ps.setInt(2, accountId);
             ps.execute();
         } catch (SQLException ex) {
-            LOGGER.log(Level.FINE, "", ex);
+            LOGGER.log(Level.SEVERE, "", ex);
         } finally {
             close(rs, ps, con);
         }

@@ -12,6 +12,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
 public class Util {
+    private Util() {}
+
     public static final Gson GSON = new Gson();
 
     public static List<Map<String, Object>> convertResultSetToList(ResultSet rs) throws SQLException {
